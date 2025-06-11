@@ -3,10 +3,10 @@ require 'config.php';
 
 $pdo = getPdo();
 
-//$pdo->exec("TRUNCATE TABLE posts");
+$pdo->exec("TRUNCATE TABLE posts");
 
-$total = 5000000;
-$batchSize = 10000;
+$total = 50000;
+$batchSize = 1000;
 $batches = ceil($total / $batchSize);
 
 for ($b = 0; $b < $batches; $b++) {
