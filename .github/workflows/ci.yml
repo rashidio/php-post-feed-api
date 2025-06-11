@@ -24,10 +24,6 @@ jobs:
         sleep 10
         make seed
 
-    - name: Seed database
-      run: |
-        make seed
-
     - name: Run performance tests
       run: |
         make perf-all || true  # prevent perf test fail from breaking CI if desired
