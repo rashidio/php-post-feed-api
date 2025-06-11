@@ -1,0 +1,43 @@
+name: Simple Docker Compose CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+
+    - name: Build and start containers
+      run: |
+        make up
+        sleep 5
+
+    - name: Seed database
+      run: |
+        make seed
+
+    - name: Run performance tests
+      run: |
+        make perf-all || true  # prevent perf test fail from breaking CI if desired
+
+    - name: Show logs
+      if: always()
+      run: |
+        make logs
+
+    - name: Stop containers
+      if: always()
+      run: |
+        make down
+
