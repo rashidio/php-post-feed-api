@@ -2,7 +2,7 @@
 math.randomseed(os.time())
 
 request = function()
-  local user_id = math.random(1, 100)
+  local user_id = math.random(1, 10000)
   local post_id = math.random(1, 50000)
   local body = string.format("user_id=%d&post_id=%d", user_id, post_id)
   local headers = {}
