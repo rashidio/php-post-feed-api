@@ -14,6 +14,9 @@ logs:
 seed:
 	docker-compose exec -T app php seed.php
 
+build-wrk:
+	docker-compose build wrk
+
 perf-feed:
 	docker-compose run --rm wrk -t4 -c500 -d10s -s /wrk/scripts/feed.lua http://app:8000
 
