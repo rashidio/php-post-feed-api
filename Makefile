@@ -5,7 +5,11 @@ down:
 	docker-compose down
 
 logs:
-	docker-compose logs -f
+	@if [ "$$CI" = "true" ]; then \
+		docker-compose logs; \
+	else \
+		docker-compose logs -f; \
+	fi
 
 seed:
 	docker-compose exec -T app php seed.php
