@@ -8,7 +8,7 @@ logs:
 	docker-compose logs -f
 
 seed:
-	docker-compose exec app php seed.php
+	docker-compose exec -T app php seed.php
 
 # Perf test feed API with Lua
 perf-feed:
