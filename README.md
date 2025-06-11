@@ -33,9 +33,11 @@ make seed     # Seed 50k posts (batches of 1000)
 
 ## 📊 Performance Tests
 
-Benchmark API endpoints with wrk and Lua scripts:
+Benchmark API endpoints with wrk and Lua scripts to randomize request query:
 
 ```bash
+make perf-all   # Run both performance tests below sequentially
+
 make perf-feed  # Test feed endpoint (4 threads, 500 connections)
 make perf-view  # Test view endpoint
 ```
