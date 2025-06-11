@@ -18,10 +18,10 @@ build-wrk:
 	docker-compose build wrk
 
 perf-feed:
-	docker-compose run --rm wrk -t4 -c500 -d10s -s /wrk/scripts/feed.lua http://app:8000
+	docker-compose run --rm wrk -t1 -c500 -d10s -s /wrk/scripts/feed.lua http://app:8000
 
 perf-view:
-	docker-compose run --rm wrk -t4 -c500 -d10s -s /wrk/scripts/view.lua http://app:8000
+	docker-compose run --rm wrk -t1 -c500 -d10s -s /wrk/scripts/view.lua http://app:8000
 
 perf-all:
 	$(MAKE) perf-view

@@ -11,7 +11,7 @@ Proof of concept API for a post feed system with MySQL backend. Features include
 
 **Feed API - GET /api/feed.php**
 
-- Parameters: user_id, last_hotness, last_id (for pagination)
+- Parameters: user_id, last_hotness, last_id (for pagination when last_hotness is identical)
 - Returns: 50 posts sorted by hotness (desc) excluding:
 - Posts user has seen
 - Posts with >1000 views
@@ -38,7 +38,7 @@ Benchmark API endpoints with wrk and Lua scripts to randomize request query:
 ```bash
 make perf-all   # Run both performance tests below sequentially
 
-make perf-feed  # Test feed endpoint (4 threads, 500 connections)
+make perf-feed  # Test feed endpoint
 make perf-view  # Test view endpoint
 ```
 
