@@ -1,10 +1,11 @@
 # PHP Post feed API
 
 Proof of concept API for a post feed system with MySQL backend. Features include:
-Keyset pagination for efficient large dataset handling
-Batch seeding of 50k posts with random data
-Feed endpoint with smart filtering (excludes seen posts & over-exposed content - 1000 views)
-View tracking endpoint with atomic operations
+
+* Keyset pagination for efficient large dataset handling
+* Batch seeding of 50k posts with random data
+* Feed endpoint with smart filtering (excludes seen posts & over-exposed content - 1000 views)
+* View tracking endpoint with atomic operations
 
 ## Endpoints
 

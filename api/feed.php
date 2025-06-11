@@ -26,8 +26,6 @@ $sql = "
           SELECT 1 FROM user_views uv WHERE uv.user_id = ? AND uv.post_id = p.id
       )
 ";
-
-// keyset pagination
 if ($lastHotness !== null && $lastId !== null) {
     $sql .= " AND (p.hotness < ? OR (p.hotness = ? AND p.id < ?)) ";
     $params = array_merge($params, [$lastHotness, $lastHotness, $lastId]);
@@ -38,6 +36,5 @@ $sql .= " ORDER BY p.hotness DESC, p.id DESC LIMIT $limit";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
-$posts = $stmt->fetchAll();
 
 echo json_encode($posts);
