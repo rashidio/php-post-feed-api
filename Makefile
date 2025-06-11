@@ -10,13 +10,13 @@ logs:
 seed:
 	docker-compose exec app php seed.php
 
-# Perf test feed API
+# Perf test feed API with Lua
 perf-feed:
-	docker-compose run --rm wrk -t4 -c500 -d10s http://app:8000/api/feed.php?user_id=1\&last_hotness=1452\&last_id=4699
+	docker-compose run --rm wrk -t4 -c500 -d10s -s /wrk/scripts/feed.lua http://app:8000
 
-# Perf test view API
+# Perf test view API with Lua
 perf-view:
-	docker-compose run --rm wrk -t4 -c500 -d10s http://app:8000/api/view.php?user_id=1\&post_id=1452
+	docker-compose run --rm wrk -t4 -c500 -d10s -s /wrk/scripts/view.lua http://app:8000
 
 # Run both sequentially
 perf-all:

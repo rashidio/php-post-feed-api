@@ -24,7 +24,8 @@ services:
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql
 
   wrk:
-    image: williamyeh/wrk
+    build:
+      context: ./wrk
     container_name: posts_wrk
     depends_on:
       - app
