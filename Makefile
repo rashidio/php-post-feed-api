@@ -24,5 +24,5 @@ perf-view:
 	docker-compose run --rm wrk -t4 -c500 -d10s -s /wrk/scripts/view.lua http://app:8000
 
 perf-all:
-	$(MAKE) perf-feed
 	$(MAKE) perf-view
+	$(MAKE) perf-feed
