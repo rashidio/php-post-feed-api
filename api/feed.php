@@ -36,5 +36,5 @@ $sql .= " ORDER BY p.hotness DESC, p.id DESC LIMIT $limit";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
-
+$posts = $stmt->fetchAll();
 echo json_encode($posts);
