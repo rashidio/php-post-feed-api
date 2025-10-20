@@ -1,13 +1,24 @@
 services:
-  app:
+  nginx:
+    image: nginx:alpine
+    container_name: php-post-feed-nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html
+    depends_on:
+      - php
+      - db
+
+  php:
     build: .
     container_name: php-post-feed-api
     volumes:
       - .:/var/www/html
+      - ./docker/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
     working_dir: /var/www/html
-    command: php -S 0.0.0.0:8000 -t /var/www/html
-    ports:
-      - "8000:8000"
+    command: php-fpm
     depends_on:
       - db
 
@@ -21,16 +32,15 @@ services:
       - "3307:3306"
     volumes:
       - dbdata:/var/lib/mysql
-      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+      - ./database/db.sql:/docker-entrypoint-initdb.d/db.sql
 
   wrk:
     build:
       context: ./wrk
     container_name: posts_wrk
     depends_on:
-      - app
-    entrypoint: ["wrk"]
-    profiles: ["test"]
+      - nginx
+    entrypoint: ["tail", "-f", "/dev/null"]
 
 volumes:
   dbdata:

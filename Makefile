@@ -1,5 +1,6 @@
 up:
-	docker-compose up -d --build
+	docker-compose up -d --build > /dev/null 2>&1
+	@echo "✅ Services started successfully"
 
 down:
 	docker-compose down
@@ -11,17 +12,23 @@ logs:
 		docker-compose logs -f; \
 	fi
 
-seed:
-	docker-compose exec -T app php seed.php
+app:
+	docker-compose exec php sh
 
-build-wrk:
-	docker-compose build wrk
+seed:
+	docker-compose exec -T php php scripts/seed.php
 
 perf-feed:
-	docker-compose run --rm wrk -t1 -c500 -d10s -s /wrk/scripts/feed.lua http://app:8000
+	docker-compose exec wrk wrk -t4 -c50 -d30s -s /wrk/scripts/feed.lua http://nginx:8000
 
 perf-view:
-	docker-compose run --rm wrk -t1 -c500 -d10s -s /wrk/scripts/view.lua http://app:8000
+	docker-compose exec wrk wrk -t4 -c50 -d30s -s /wrk/scripts/view.lua http://nginx:8000
+
+perf-feed-heavy:
+	docker-compose exec wrk wrk -t8 -c200 -d60s -s /wrk/scripts/feed.lua http://nginx:8000
+
+perf-view-heavy:
+	docker-compose exec wrk wrk -t8 -c200 -d60s -s /wrk/scripts/view.lua http://nginx:8000
 
 perf-all:
 	$(MAKE) perf-view

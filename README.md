@@ -1,49 +1,49 @@
-# PHP Post feed API
+# PHP Post Feed API
 
-Proof of concept API for a post feed system with MySQL backend. Features include:
+Simple PHP API demonstrating keyset pagination for large datasets with MySQL backend.
 
-* Keyset pagination for efficient large dataset handling
-* Batch seeding of 50k posts with random data
-* Feed endpoint with smart filtering (excludes seen posts & over-exposed content - 1000 views)
-* View tracking endpoint with atomic operations
+## What It Does
 
-## Endpoints
+- **Feed endpoint**: Returns posts sorted by hotness, excluding seen posts and over-exposed content
+- **View endpoint**: Tracks user views and increments post view counts
+- **Keyset pagination**: Efficient pagination using `(hotness < ? OR (hotness = ? AND id < ?))` for large datasets
 
-**Feed API - GET /api/feed.php**
+## API Endpoints
 
-- Parameters: user_id, last_hotness, last_id (for pagination when last_hotness is identical)
-- Returns: 50 posts sorted by hotness (desc) excluding:
-- Posts user has seen
+### Feed API
+```bash
+GET /api/feed.php?user_id=1&last_hotness=99950&last_id=12345
+```
+Returns 50 posts sorted by hotness (desc), excluding:
+- Posts user has already seen
 - Posts with >1000 views
-- Keyset pagination: WHERE (hotness < ? OR (hotness = ? AND id < ?))
 
-**View API - GET /api/view.php**
+### View API
+```bash
+POST /api/view.php
+Content-Type: application/x-www-form-urlencoded
 
-- Parameters: user_id, post_id
-- Actions:
-- Records view in user_views
-- Atomically increments post's view count
+user_id=1&post_id=12345
+```
+Records view and atomically increments post view count.
 
-## 🚀 Usage
+## Quick Start
 
 ```bash
-make up       # Start containers (PHP app + MySQL)
-make seed     # Seed 50k posts (batches of 1000)
+make up       # Start containers
+make seed     # Seed 50k posts
+make perf-all # Run performance tests
 ```
 
-## 📊 Performance Tests
-
-Benchmark API endpoints with wrk and Lua scripts to randomize request query:
+## Performance Tests
 
 ```bash
-make perf-all   # Run both performance tests below sequentially
-
-make perf-feed  # Test feed endpoint
-make perf-view  # Test view endpoint
+make perf-view  # ~924 req/sec
+make perf-feed  # ~682 req/sec
 ```
 
-## 📦 Requirements
+Expected performance with nginx + php-fpm setup.
 
-- Docker
-- Docker Compose
-- Make
+## CI/CD
+
+- **`ci.yml`**: Runs on every push/PR with health checks + performance tests

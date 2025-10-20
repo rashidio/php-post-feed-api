@@ -14,5 +14,7 @@ CREATE TABLE posts (
 CREATE TABLE user_views (
   user_id BIGINT UNSIGNED NOT NULL,
   post_id BIGINT UNSIGNED NOT NULL,
-  PRIMARY KEY (user_id, post_id)
+  PRIMARY KEY (user_id, post_id),
+  INDEX idx_user_id (user_id),
+  INDEX idx_post_id (post_id)
 );
